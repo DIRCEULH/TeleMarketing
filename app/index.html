@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="icon" href="image/logo_correa.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../../css/bootstrap.css" />
+  <link rel="stylesheet" href="../../css/font-awesome.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" type="text/css" href="css/css.css" >
+  <script src="../../js/angular.min.js"></script>
+  <script src="js/controller_upload.js"></script>
+  <script src="js/angular-file-upload.js"></script>
+  <script src="js/controller_session.js"></script>
+  <script src="../../js/dirPagination.js"></script>
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/bootstrap.js"></script>
+  <script src="../../js/bootbox.min.js"></script>
+</head>
+<body style="font-family: verdana;" ng-app="myApp" ng-controller="customersCtrl" nv-file-drop="" uploader="uploader"filters="queueLimit, customFilter">
+  <div class="container-fluid	">
+    <nav style=" background: #ccc;" class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a style="margin-top: -10px;" class="navbar-brand" href="index.html">
+            <font color="black"><img src="image/logo_correa.png" alt="Correa" height="40" width="40"></font>
+          </a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">
+              <font color="black"><i class="fa fa-upload" aria-hidden="true"></i> Clientes/Inbox</font>
+            </a></li>
+          <li><a href="#">
+            <font color="white"><i class="fa fa-sign-out" aria-hidden="true"></i> {{logado}}</font>
+            </a></li>
+            <li><a href="filtro.html">
+              <font color="black"><i class="fa fa-filter" aria-hidden="true"></i> Filtros </font>
+            </a></li>
+          <li><a href="login.html">
+              <font color="black"><i class="fa fa-external-link-square" aria-hidden="true"></i> Sair </font>
+            </a></li>
+          <li><a href="#">
+              <font color="#fff"> </font>
+            </a></li>
+        </ul>
+      </div>
+    </nav><br><br/><br><br/>
+    <div class="panel panel-default">
+      <div class="panel-heading"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar</div>
+      <form  >
+    <div class="input-group mb-2">
+      <input type="search" class="form-control col-xs-4" ng-model="cgc" placeholder="Pesquise pelo CNPJ/CPF/IDCLIFOR...">
+      <span class="input-group-btn">
+      <button   ng-click="carregar();anexos()" class="btn btn-default "  ><span class="glyphicon glyphicon-search" aria-hidden="true"></span>  Buscar</button>
+      </span>
+      </div></form><br>
+    <table class="table table-bordered ">
+      <thead>
+        <tr>
+          <th width="1%" class="p-3 mb-2 bg-warning   text-white"><i ng-show="!loading2" class="fa fa-database" aria-hidden="true"></i><i ng-show="loading2" class="fa fa-refresh fa-spin  fa-1x  fa-fw"></i></th>
+          <th width="5%" class="bg-warning">CPF/CNPJ <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="15%" class="bg-warning">Cliente/Fornecedor <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="8%" class="bg-warning">Email<i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="5%" ng-show="uploader.isHTML5" class="bg-warning">Telefone <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="10%" ng-show="uploader.isHTML5" class="bg-warning">Endereco <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="10%" ng-show="uploader.isHTML5" class="bg-warning">Bairro <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="5%" ng-show="uploader.isHTML5" class="bg-warning">Cidade/Estado <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="5%" ng-repeat="x in total"  ng-hide="x.quantidade < 1 " class="bg-warning">Anexos <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="7%" width="15%" class="bg-warning">Ação <i class="fa fa-sort" aria-hidden="true"></i></th>
+        </tr>
+        <tr ng-repeat="r in clientes | filter:search | orderBy : 'nome' ">
+          <td><i class="fa fa-arrow-right" aria-hidden="true"></i></td>
+          <td style="text-align: right;" class="bg-default"><font color="">{{r.CGC}}</font></td>
+          <td style="text-align: left;" class="bg-default"><font color="">{{r.IDCLIFOR}} - {{r.NOME}}</font> </td>
+          <td style="text-align: left;" class="bg-default"><font color="">{{r.EMAIL}}</font></td>
+          <td style="text-align: center;" >{{ r.TELEFONE }}</i></td>
+          <td style="text-align: center;" >{{ r.ENDERECO }}</td>
+          <td style="text-align: center;" >{{ r.BAIRRO }}</td>
+          <td style="text-align: center;" >{{ r.CIDADE }}-{{ r.UF }}</td>
+          <td  ng-repeat="x in total" ng-hide="x.quantidade < 1 " style="text-align: center;" ng-class="{'variavelred': x.quantidade < 1 , 'variavelblue':x.quantidade > 0}">{{ x.quantidade }} <i class="fa fa-paperclip fa-2x" aria-hidden="true"></i></td>
+          <td style="text-align: right;" class="bg-default">
+            <font color=""><button class="btn btn-default btn-s" ng-click="uploader.uploadAll();cadastroinbox(r.CGC,r.NOME,r.EMAIL,r.TELEFONE,r.CEP,r.ENDERECO,r.BAIRRO,r.CIDADE,r.UF ,r.IDCLIFOR );log(r.CGC,r.NOME)" ng-disabled=" item.isReady || item.isUploading || item.isSuccess"> <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+              <button ng-repeat="x in total" ng-disabled="x.quantidade == 0" class="btn btn-default btn-s"
+              ng-click="janela_arquivos(r.CGC,r.NOME,logado)"><i class="fa fa-files-o" aria-hidden="true"></i></button>   <!-- &nbsp;<button ng-repeat="x in total" ng-disabled="x.quantidade == 0" class="btn btn-default btn-s" -->
+                <!-- ng-click="janela_arquivos(r.CGC,r.NOME,logado)"><i class="fa fa-files-o" aria-hidden="true"></i></button>&nbsp;<a  ng-click="carregar();anexos()" class="btn btn-default btn-s" ng-href=""> <i class="fa fa-refresh" aria-hidden="true"></i></a></font> -->
+          </td>
+        </tr>
+      </thead>
+    </table>
+    <!--<dir-pagination-controls max-size="25" boundary-links="true"></dir-pagination-controls>-->
+
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><i class="fa fa-list-alt" aria-hidden="true"></i> Cadastro</div>
+      <div class="input-group" >
+        <center><label for="exampleFormControlTextarea1">Feedback Cliente</label></center>
+        <textarea maxlength="2000" class="form-control"  ng-model="feedbackc" rows="10"></textarea>
+        <span class="input-group-addon"></span>
+        <center><label for="exampleFormControlTextarea1">Feedback Empresa</label></center>
+        <textarea maxlength="2000" class="form-control" ng-model="feedbacke" rows="10"></textarea>
+      </div><br></br>
+      <div class="form-group col-md-6">
+        <label for="inputState">Status Origem:</label>
+        <select class="form-control" ng-model="statuso">
+        <option ng-value="Email">Email</option>
+        <option ng-value="Whatsapp">Whatsapp</option>
+        <option ng-value="Telefone">Telefone</option>
+        <option ng-value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputState">Status Feedback:</label>
+        <select class="form-control" ng-model="statusf">
+          <option ng-value="Excelente">Excelente</option>
+        <option ng-value="Bom">Bom</option>
+        <option ng-value="Regular">Regular</option>
+        <option ng-value="Ruim">Ruim</option>
+        <option ng-value="Péssimo">Péssimo</option>
+        <option ng-value="Avaliar">Avaliar</option>
+        </select>
+      </div><br></br><br></br>
+      <div class="form-group col-md-2">
+        <label for="inputState">Upload Arquivos:</label>
+        <input  class="form-control btn-choose" type="file" nv-file-select="" uploader="uploader" multiple />
+      </div>
+      <div class="form-group col-md-1">
+      <label for="inputState"></label>
+        <div  ng-class="{'variavelred':uploader.queue.length < 1 , 'variavelblue':uploader.queue.length > 0}">{{ uploader.queue.length }} <i class="fa fa-paperclip fa-2x" aria-hidden="true"></i></div><br></br><br></br>
+       </div>
+       <div class="form-group col-md-2">
+        <label   for="inputState">Anexar arquivos:</label></br>
+       <button ng-disabled="uploader.queue.length < 1 || loadingupload" class="btn btn-default btn-s" ng-click="uploader.uploadAll();log(r.CGC,r.NOME)" ng-disabled=" item.isReady || item.isUploading || item.isSuccess"> <i class="fa fa-upload" aria-hidden="true"></i> Anexar  arquivo para Cliente Selecionado</button>
+      </div><br></br><br></br>
+    </div>
+    
+    
+   
+
+      <!-- <table class="table table-bordered ">
+        <thead>
+          <tr>
+            <th width="3%" class="p-3 mb-2 bg-warning   text-white"><i ng-show="!loading" class="fa fa-database" aria-hidden="true"></i><i ng-show="loading" class="fa fa-refresh fa-spin fa-1x  fa-fw"></i></th>
+            <th width="30%" class="bg-warning">Alteração <i class="fa fa-sort" aria-hidden="true"></i></th>
+            <th width="30%" class="bg-warning">Arquivos <i class="fa fa-sort" aria-hidden="true"></i></th>
+            <th width="30%" class="bg-warning">Log-Usuário <i class="fa fa-sort" aria-hidden="true"></i></th>
+          </tr>
+          <tr ng-repeat="x in total">
+            <td><i class="fa fa-arrow-right" aria-hidden="true"></i></td>
+            <td style="text-align: left;" class="bg-default"ng-class="{'variavelred': x.hora_arquivo < 1 , 'variavelblue':x.hora_arquivo > 0}"><font color="">{{x.hora_arquivo}}</font></td>
+            <td style="text-align: left;" class="bg-default"ng-class="{'variavelred': x.arquivo < 1 , 'variavelblue':x.arquivo > 0}"><font color="">{{x.arquivo}}</font></td>
+            <td style="text-align: left;" class="bg-default"ng-class="{'variavelred': x.usuario < 1 , 'variavelblue':x.usuario > 0}"><font color="">{{x.usuario}}</font></td>
+          </tr>
+        </thead>
+      </table>  -->
+
+</body>
+</html>

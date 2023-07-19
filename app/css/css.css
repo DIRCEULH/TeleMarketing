@@ -1,0 +1,128 @@
+
+div.menu_fixed_form {
+	position: fixed;
+    border: 1px solid gray;
+    border-radius: 3px;
+    text-align: left;
+    border-collapse: collapse;
+    width: 96.7%;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-top: -16px;
+    margin-left: -10px ;
+    background-color: #ccc
+   
+}
+
+
+div.borda {
+    border: 1px solid #ccc;
+    text-align: left;
+    border-collapse: collapse;
+    width: 98%;
+    padding: 15px;
+    margin-bottom: 5px;	
+    margin-top:-8px;
+    background-color:#F0F8FF;
+}
+ th {    
+    background-color: #ccc;	
+}
+
+table, td, th {    
+    border: 1px solid gray;
+    text-align: left;
+	margin:auto;
+	
+
+}
+
+.grid {
+    margin-top:px;
+    border-collapse: collapse;
+    width: 99%;
+
+}
+.gridcal {
+    margin-top:215px;
+    border-collapse: collapse;
+    width: 99%;
+    margin-bottom: 5px;
+
+}
+
+th, td {
+    padding: 10px;
+}
+
+/* tr:nth-child(even) {
+    background-color: #dddddd;
+} */
+
+.input {
+	border-radius: 3px;
+	border: 1px solid #686262;
+    text-align: left;
+	border-collapse: collapse;
+    width: 15%;
+	padding: 10px;
+	margin-bottom: 5px;
+	box-shadow: 0px 0px 1px rgba(50, 50, 50, 0.77);
+}
+.select {
+	border-radius: 3px;
+	border: 1px solid #686262;
+    text-align: left;
+	border-collapse: collapse;
+    width: 100%;
+	padding: 10px;
+	margin-bottom: 5px;
+	box-shadow: 0px 0px 1px rgba(50, 50, 50, 0.77);
+}
+/* .button { */
+	/* border: 1px solid #ccc; */
+    /* text-align: left; */
+	/* border-collapse: collapse; */
+    /* width: 6%; */
+	/* padding: 12px; */
+	/* margin-bottom: 5px; */
+	/* box-shadow: 0px 0px 2px rgba(50, 50, 50, 0.77); */
+/* } */
+
+.button {
+	width: 6%;
+    background-color: white;
+    color: black;
+	border-radius: 3px;
+    border: 2px solid #686262;
+	padding: 10px;
+}
+
+.button:hover {
+
+    background-color: #686262;
+    color: white;
+}
+
+.image {
+	margin-left:px;
+	margin-top: 0px;
+	height: 35px;
+	width: 75px;
+	
+}
+
+.variavelred{
+	color: red;
+}
+.variavelblue{
+	color: #00BFFF;
+}
+
+.variavelredback{
+	background: #F79F81;
+}
+.variavelblueback{
+	background: #00BFFF;
+}
+

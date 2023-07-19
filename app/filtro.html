@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="icon" href="image/logo_correa.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../../css/bootstrap.css" />
+  <link rel="stylesheet" href="../../css/font-awesome.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" type="text/css" href="css/css.css" >
+  <script src="../../js/angular.min.js"></script>
+  <script src="js/controller_session.js"></script>
+  <script src="../../js/jquery.min.js"></script>
+  <script src="js/controller_filtros.js"></script>
+  <script src="../../js/dirPagination.js"></script>
+  <script src="../../js/bootstrap.js"></script>
+  <script src="../../js/bootbox.min.js"></script>
+</head>
+<body style="font-family: verdana;" ng-app="myApp" ng-controller="customersFiltro" >
+  <div class="container-fluid	">
+    <nav style=" background: #ccc; " class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a style="margin-top: -10px;" class="navbar-brand" href="index.html">
+            <font color="black"><img src="image/logo_correa.png" alt="Correa" height="40" width="40"></font>
+          </a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="index.html">
+              <font color="black"><i class="fa fa-upload" aria-hidden="true"></i> Clientes/Inbox</font>
+            </a></li>
+          <li><a href="#">
+            <font color="white"><i class="fa fa-sign-out" aria-hidden="true"></i> {{logado}}</font>
+            </a></li>
+            <li><a href="index.html">
+              <font color="black"><i class="fa fa-list-alt" aria-hidden="true"></i> Cadastros </font>
+            </a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i> Gráficos Feedback Clientes
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="graficomensal.php" target="blank"><i class="fa fa-bar-chart" aria-hidden="true"></i> Gráfico Mes Atual</a></li>
+                <li><a href="graficoanual.php" target="blank"><i class="fa fa-bar-chart" aria-hidden="true"></i> Gráfico Anual</a></li>
+               
+              </ul>
+            </li>
+          <li><a href="login.html">
+              <font color="black"><i class="fa fa-external-link-square" aria-hidden="true"></i> Sair </font>
+            </a></li>
+          <li><a href="#">
+              <font color="#fff"> </font>
+            </a></li>
+        </ul>
+      </div>
+    </nav><br><br/><br><br/>
+    <div class="panel panel-default">
+      <div class="panel-heading"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar</div>
+      <div  class="btn-group btn-group-toggle" data-toggle="buttons">
+        <input type="search" class="form-control col-xs-4" ng-model="search" placeholder="Pesquise pelo CNPJ/CPF/IDCLIFOR..."><br><br/>
+        <label ng-repeat="e in excelente" class="btn btn-success ">
+          <button type="button" class="btn btn-success "ng-click="carregar('Excelente')"><i class="fa fa-smile-o" aria-hidden="true"></i> Excelente: {{e.statusexcelente}}</button>
+        </label>
+        <label ng-repeat="e in bom" class="btn btn-primary active">
+          <button type="button" class="btn btn-primary "ng-click="carregar('Bom')"><i class="fa fa-smile-o" aria-hidden="true"></i> Bom: {{e.statusbom}}</button>
+        </label>
+        <label  ng-repeat="e in regular"  class="btn btn-warning active">
+          <button type="button" class="btn btn-warning "ng-click="carregar('Regular')"><i class="fa fa-meh-o" aria-hidden="true"></i>  Regular: {{e.statusregular}}</button>
+        </label>
+        <label  ng-repeat="e in ruim"   class="btn btn-default active">
+          <button type="button" class="btn btn-default "ng-click="carregar('Ruim')"><i class="fa fa-frown-o" aria-hidden="true"></i>  Ruim: {{e.statusruim}}</button>
+        </label>
+        <label  ng-repeat="e in pessimo"  class="btn btn-danger active">
+          <button type="button" class="btn btn-danger "ng-click="carregar('Péssimo')"><i class="fa fa-frown-o" aria-hidden="true"></i>  Péssimo: {{e.statuspessimo}}</button>
+        </label>
+        <label  style="color: purple;" ng-repeat="e in avaliar"  class="btn btn-default active">
+          <button type="button" class="btn btn "ng-click="carregar('Avaliar')"><i class="fa fa-question"  aria-hidden="true"></i>  Avaliar: {{e.statusavaliar}}</button>
+        </label>
+        <label   class="btn btn-info active">
+          <button type="button" class="btn btn-info "ng-click="Refrech()"><i class="fa fa-retweet" aria-hidden="true"></i>  Todos</button>
+        </label>
+      </div>
+    <table class="table table-bordered ">
+      <thead>
+        <tr>
+          <th width="6%" class="p-3 mb-2 bg-warning   text-white"><i class="fa fa-tasks" aria-hidden="true"></i></th>
+          <th width="6%" class="bg-warning">Anexos <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="6%"  class="bg-warning">Status <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="6%"  class="bg-warning">Data Cad. <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="6%"  class="bg-warning">Origem <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="15%" class="bg-warning">Cliente/Fornecedor <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="22%" class="bg-warning">FeedBack_cliente <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="5%" class="bg-warning">Zoom <i class="fa fa-sort" aria-hidden="true"></i></th>
+          <th width="22%" class="bg-warning">Feedback_Empresa <i class="fa fa-sort" aria-hidden="true"></i></th>
+        </tr>
+        <tr dir-paginate = "r in feedback | filter:search | orderBy : 'nome' | itemsPerPage: 3 ">
+          <td style="text-align: left;"><font color="purple"><i ng-show="r.status_feedback == 'Avaliar'" class="fa fa-question"  aria-hidden="true"> {{r.status_feedback}}</i></font><font color="blue"><i ng-show="r.status_feedback == 'Bom'" class="fa fa-bullseye"   aria-hidden="true"> {{r.status_feedback}}</i></font>
+            <font color="green"><i ng-show="r.status_feedback == 'Excelente'" class="fa fa-bullseye"  aria-hidden="true"> {{r.status_feedback}}</i></font><font color="orange"><i ng-show="r.status_feedback == 'Regular'" class="fa fa-bullseye"  aria-hidden="true"> {{r.status_feedback}}</i></font><font color="gray"><i ng-show="r.status_feedback == 'Ruim'" class="fa fa-bullseye" aria-hidden="true"> {{r.status_feedback}}</i></font><font color="red"><i ng-show="r.status_feedback == 'Péssimo' " class="fa fa-bullseye"  aria-hidden="true"> {{r.status_feedback}}</i></font></td>
+          <td style="text-align: center;" class="bg-default"><font color="blue"><button  ng-click="janela_arquivos(r.cgc,r.nome,logado);anexos(r.cgc)"><i class="fa fa-files-o" aria-hidden="true"></i></button> </font></td>
+          <td style="text-align: center;" ><select ng-disabled="logado !== 'DIRCEUH' && logado !== 'CARLOSO' && logado !== 'JULIANOC' && logado !== 'ADEMILCIC'" class="form-control" ng-model="r.status_feedback" ng-change="updatestatus(r.idcadastro,r.status_feedback);statusexcelente()">
+          <option ng-value="Excelente">Excelente</option>
+          <option ng-value="Bom">Bom</option>
+          <option ng-value="Regular">Regular</option>
+          <option ng-value="Ruim">Ruim</option>
+          <option ng-value="Péssimo">Péssimo</option>
+          <option ng-value="Avaliar">Avaliar</option>
+          </select></td>
+          <td style="text-align: center;" >{{ r.data_cadastro }}</td>
+          <td style="text-align: center;" >{{ r.status_origem }}</td>
+          <td style="text-align: left;" class="bg-default"><font color="">{{r.idclifor}} - {{r.nome}}</font> </td>
+          <td style="text-align: left;" class="bg-default"><font color=""><textarea    class="form-control"    ng-model="r.feedback_cliente" rows="3"></textarea></font></td>
+          <td style="text-align: center;" ><button ng-click="abrir_modal(r.feedback_cliente)" ><font color="blue"><i class="fa fa-search-plus" aria-hidden="true"></i></font></button></td>
+          <td style="text-align: center;" ><textarea  class="form-control"    ng-model="r.feedback_empresa" rows="3"></textarea></i></td>
+          <td ng-show="r.status_origem === []" style="text-align: left;" class="bg-default"><font color="red">Nenhum encontrado!!</font> </td>
+        </tr>
+      </thead>
+    </table>
+    <dir-pagination-controls max-size="25" boundary-links="true"></dir-pagination-controls>
+    <br><br/><br><br/><br><br/>
+    </div>
+</body>
+</html>

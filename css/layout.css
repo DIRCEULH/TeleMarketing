@@ -1,0 +1,10 @@
+.my-drop-zone { border: dotted 3px lightgray; }
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+html, body { height: 100%; font-family:verdana;}
+.pointer {
+ cursor: pointer;}
+.image {
+width: 620px;
+height: 480x;
+}
